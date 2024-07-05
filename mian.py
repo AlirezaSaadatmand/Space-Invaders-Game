@@ -7,14 +7,17 @@ enemy_lst = []
 
 WIDTH , HEIGHT = 1200 , 700
 
+side = "left"
+
 color_lst = ["red" , "green" , "blue" , "orange" , "purple"]
 
-map1 = [[1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1],
-        [1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1],
-        [1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1],
-        [1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1],
-        [1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1]]
+map1 = [[1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1],
+        [1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1],
+        [1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1],
+        [1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1],
+        [1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1]]
 
+index = len(map1[0]) - 1
 class Player:
     def __init__(self):
         self.x = WIDTH / 2
@@ -65,14 +68,36 @@ def create_enemy():
     unity = 70
     for i in range(len(map1)):
         for j in range(len(map1[i])):
-            enemy_lst.append(Enemy(unitx * (j + 1) - 20 , unity * (-1) * (i + 1) - 20 , color_lst[i]))
+            enemy_lst.append(Enemy(unitx * (j + 1) - 40 , unity * (-1) * (i + 1) - 40 , color_lst[i]))
         
 create_enemy()
-
+dis = enemy_lst[0].x
 def enemy_move(counter):
+    global side
+    global index
     if counter < 210:
         for enemy in enemy_lst:
             enemy.y += 2
+    else:
+        if side == "left" and enemy_lst[index].x <= WIDTH - dis:
+            for enemy in enemy_lst:
+                enemy.x += 1
+            if enemy_lst[index].x >= WIDTH - dis:
+                side = "down"
+        elif side == "down":
+            for enemy in enemy_lst:
+                enemy.y += 30
+            if enemy_lst[0].x <= 0 + dis+5:
+                side = "left"
+            else:
+                side = "right"
+        elif side == "right" and enemy_lst[0].x >= 0 + dis:
+            for enemy in enemy_lst:
+                enemy.x -= 1
+            if enemy_lst[0].x <= 0 + dis:
+                side = "down"
+                
+        
 
 def draw():
     screen.fill("black")
