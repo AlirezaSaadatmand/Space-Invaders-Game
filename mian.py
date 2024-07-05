@@ -53,7 +53,7 @@ class Enemy:
     def __init__(self , x , y , color):
         self.x = x
         self.y = y
-        self.enemy_surface = pygame.Surface( (30 , 30) )
+        self.enemy_surface = pygame.Surface( (40 , 40) )
         self.enemy_surface.fill(color)
     
     def draw(self):
@@ -65,9 +65,14 @@ def create_enemy():
     unity = 70
     for i in range(len(map1)):
         for j in range(len(map1[i])):
-            enemy_lst.append(Enemy(unitx * (j + 1), unity * (i + 1) , color_lst[i]))
+            enemy_lst.append(Enemy(unitx * (j + 1) - 20 , unity * (-1) * (i + 1) - 20 , color_lst[i]))
         
 create_enemy()
+
+def enemy_move(counter):
+    if counter < 210:
+        for enemy in enemy_lst:
+            enemy.y += 2
 
 def draw():
     screen.fill("black")
@@ -86,6 +91,8 @@ screen = pygame.display.set_mode( (WIDTH , HEIGHT) )
 clock = pygame.time.Clock()
 
 player = Player()
+
+counter = 0
 
 while True:
     pygame.display.set_caption(f"Space invaders  FPS : {round(clock.get_fps())}")
@@ -106,7 +113,9 @@ while True:
                 player.goingleft = False
             if event.key == pygame.K_RIGHT:
                 player.goingright = False
-        
+                
+    enemy_move(counter)
     draw()
+    counter += 1
     pygame.display.update()
     clock.tick(60)
