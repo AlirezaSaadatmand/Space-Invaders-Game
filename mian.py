@@ -3,9 +3,17 @@ from sys import exit
 
 projectile_lst = []
 
-enemry_lst = []
+enemy_lst = []
 
-WIDTH , HEIGHT = 1000 , 700
+WIDTH , HEIGHT = 1200 , 700
+
+color_lst = ["red" , "green" , "blue" , "orange" , "purple"]
+
+map1 = [[1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1],
+        [1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1],
+        [1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1],
+        [1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1],
+        [1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1]]
 
 class Player:
     def __init__(self):
@@ -42,11 +50,24 @@ class Projectile:
         screen.blit(self.projectile_surface , self.projectile_surface_rect)
         
 class Enemy:
-    def __init__(self , x , y):
+    def __init__(self , x , y , color):
         self.x = x
         self.y = y
+        self.enemy_surface = pygame.Surface( (30 , 30) )
+        self.enemy_surface.fill(color)
+    
+    def draw(self):
+        self.enemy_surface_rect = self.enemy_surface.get_rect(center = (self.x , self.y))
+        screen.blit(self.enemy_surface , self.enemy_surface_rect)
+
+def create_enemy():
+    unitx = WIDTH / 11
+    unity = 70
+    for i in range(len(map1)):
+        for j in range(len(map1[i])):
+            enemy_lst.append(Enemy(unitx * (j + 1), unity * (i + 1) , color_lst[i]))
         
-                
+create_enemy()
 
 def draw():
     screen.fill("black")
@@ -57,6 +78,8 @@ def draw():
             projectile_lst.remove(projectile)
         projectile.draw()
     
+    for enemy in enemy_lst:
+        enemy.draw()
         
 pygame.init()
 screen = pygame.display.set_mode( (WIDTH , HEIGHT) )
