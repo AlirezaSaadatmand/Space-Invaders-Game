@@ -3,6 +3,8 @@ from sys import exit
 
 projectile_lst = []
 
+enemry_lst = []
+
 WIDTH , HEIGHT = 1000 , 700
 
 class Player:
@@ -34,11 +36,18 @@ class Projectile:
         self.projectile_surface.fill("white")
     
     def draw(self):
-        self.y -= 5
+        self.y -= 6
         
         self.projectile_surface_rect = self.projectile_surface.get_rect(center = (self.x , self.y))
         screen.blit(self.projectile_surface , self.projectile_surface_rect)
         
+class Enemy:
+    def __init__(self , x , y):
+        self.x = x
+        self.y = y
+        
+                
+
 def draw():
     screen.fill("black")
     player.draw()
