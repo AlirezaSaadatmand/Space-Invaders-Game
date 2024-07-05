@@ -8,6 +8,8 @@ enemy2_lst = []
 
 enemy_shoot_lst = []
 
+gameover = False
+
 WIDTH , HEIGHT = 1200 , 700
 
 side = "left"
@@ -119,13 +121,23 @@ def enemy_move(counter):
             
             
 def check():
+    global gameover
     for pro in projectile_lst:
         for enemy in enemy_lst:
             if pro.projectile_surface.get_rect(center = (pro.x , pro.y)).colliderect(enemy.enemy_surface_rect):
                 projectile_lst.remove(pro)
                 enemy_lst.remove(enemy)
                 break
-
+            
+            
+    for enemy in enemy_lst:
+        if player.player_surface.get_rect(center = (player.x , player.y)).colliderect(enemy.enemy_surface_rect):
+            gameover = True
+    for shoot in enemy_shoot_lst:
+        if shoot.projectile_surface.get_rect(center = (shoot.x , shoot.y)).colliderect(player.player_surface_rect):
+            gameover = True
+            
+            
 def draw():
     screen.fill("black")
     player.draw()
@@ -149,7 +161,7 @@ player = Player()
 
 counter = 0
 
-while True:
+while not gameover:
     pygame.display.set_caption(f"Space invaders  FPS : {round(clock.get_fps())}")
     
     for event in pygame.event.get():
@@ -168,9 +180,9 @@ while True:
                 player.goingleft = False
             if event.key == pygame.K_RIGHT:
                 player.goingright = False
-    check()
     enemy_move(counter)
     draw()
+    check() 
     counter += 1
     pygame.display.update()
     clock.tick(60)
