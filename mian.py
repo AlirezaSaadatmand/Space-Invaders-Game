@@ -102,10 +102,10 @@ def enemy_move(counter):
                 side = "down"
         elif side == "down":
             for enemy in enemy_lst:
-                enemy.y += 30
+                enemy.y += 20
             for enemy in enemy2_lst:
-                enemy.y += 30
-            if enemy2_lst[0].x <= 0 + dis+5:
+                enemy.y += 20
+            if enemy2_lst[0].x <= 0 + dis+5:   
                 side = "left"
             else:
                 side = "right"
@@ -116,9 +116,8 @@ def enemy_move(counter):
                 enemy.x -= 1
             if enemy2_lst[0].x <= 0 + dis:
                 side = "down"
-        if counter % 120 == 0:
-            random.choice(enemy_lst).shoot()
-            
+        if counter % 60 == 0:
+            random.choice(enemy_lst).shoot()     
             
 def check():
     global gameover
@@ -129,14 +128,12 @@ def check():
                 enemy_lst.remove(enemy)
                 break
             
-            
     for enemy in enemy_lst:
         if player.player_surface.get_rect(center = (player.x , player.y)).colliderect(enemy.enemy_surface_rect):
             gameover = True
     for shoot in enemy_shoot_lst:
         if shoot.projectile_surface.get_rect(center = (shoot.x , shoot.y)).colliderect(player.player_surface_rect):
             gameover = True
-            
             
 def draw():
     screen.fill("black")
