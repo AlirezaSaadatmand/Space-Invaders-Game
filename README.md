@@ -1,0 +1,1 @@
+This is a simple space invader game without any special graphics
