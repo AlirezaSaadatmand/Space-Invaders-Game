@@ -166,6 +166,9 @@ while not gameover:
             pygame.quit()
             exit()
         if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                pygame.quit()
+                exit()
             if event.key == pygame.K_LEFT:
                 player.goingleft = True
             if event.key == pygame.K_RIGHT:
